@@ -1,6 +1,8 @@
 # Waterfalls
 A Particle-based Minetest Waterfalls Mod
 
+![alt text](https://github.com/ExeVirus/waterfalls/screenshot_1.jpg)
+
 Depends on: Unified Inventory, Titanium, Quartz, and Moreores
 
 Adds following Nodes:
