@@ -142,7 +142,7 @@ end
 -- Inactive
 minetest.register_node("waterfalls:whirlpool_machine", {
 	description = S("Whirlpool Machine"),
-  use_texture_alpha = true,
+	use_texture_alpha = true,
 	tiles = {
 	"whirlpool_machine_top.png",
 	"whirlpool_machine_top.png",
@@ -155,7 +155,7 @@ minetest.register_node("waterfalls:whirlpool_machine", {
 	legacy_facedir_simple = true,
 	is_ground_content = false,
 	groups = {cracky=3},
-	drop = 'waterfalls:whirlpool_machine',
+	drop = "waterfalls:whirlpool_machine",
 	sounds = default.node_sound_stone_defaults(),
 	
 	can_dig = can_dig,
@@ -164,9 +164,9 @@ minetest.register_node("waterfalls:whirlpool_machine", {
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", inactive_formspec)
 		local inv = meta:get_inventory()
-		inv:set_size('src', 1)
-		inv:set_size('fuel', 1)
-		inv:set_size('dst', 1)
+		inv:set_size("src", 1)
+		inv:set_size("fuel", 1)
+		inv:set_size("dst", 1)
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
@@ -225,7 +225,7 @@ minetest.register_node("waterfalls:whirlpool_machine_active", {
 	groups = {not_in_creative_inventory=1},
 	legacy_facedir_simple = true,
 	is_ground_content = false,
-	drop = 'waterfalls:whirlpool_machine',
+	drop = "waterfalls:whirlpool_machine",
 	sounds = default.node_sound_stone_defaults(),
 	on_timer = whirlpool_cycle_timer,	
 	
@@ -240,10 +240,10 @@ minetest.register_node("waterfalls:whirlpool_machine_active", {
 --
 
 minetest.register_craft({
-	output = '"waterfalls:whirlpool_machine" 1',
+	output = "waterfalls:whirlpool_machine",
 	recipe = {
-		{'default:steel', 'default:steel', 'default:steel'},
-		{'moreores:mithril_ingot', 'default:glass', 'moreores:mithril_ingot'},
-		{'default:diamond', 'titanium:titanium', 'default:diamond'}
+		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+		{"moreores:mithril_ingot", "default:glass", "moreores:mithril_ingot"},
+		{"default:diamond", "titanium:titanium", "default:diamond"}
 	}
 })
