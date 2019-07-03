@@ -1,0 +1,2 @@
+# Set this to false to disable to Low End Computer Restriction limit on particle number (for Mobile Devices on servers)
+LOW_END = true
