@@ -25,4 +25,5 @@ Adds following items:
 Turbulent Water Bucket:
   A crafting item used for making the three active nodes of this mod. Does not make a new liquid type (yet).   
   
-  
+
+Special Thanks to @JamieStanton96, for creating many of the textures, helping with node design and functionality, and general testing support and feedback!
