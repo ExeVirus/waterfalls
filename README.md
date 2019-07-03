@@ -1,2 +1,2 @@
 # Waterfalls
-An Particle-based Minetest Waterfalls Mod
+A Particle-based Minetest Waterfalls Mod
