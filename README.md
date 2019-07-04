@@ -3,7 +3,7 @@ A Particle-based Minetest Waterfalls Mod
 
 ![ScreenShot](/Screenshot_2.jpg)
 
-Depends on: [Unified Inventory](https://github.com/minetest-mods/unified_inventory), [Titanium](https://gitlab.com/VanessaE/titanium), Quartz, and Moreores
+Depends on: [Unified Inventory](https://github.com/minetest-mods/unified_inventory), [Titanium](https://gitlab.com/VanessaE/titanium), [Quartz](https://github.com/minetest-mods/quartz), and Moreores
 
 *Adds following Nodes:*
 
