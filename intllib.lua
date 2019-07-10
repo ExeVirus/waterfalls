@@ -8,21 +8,21 @@
 local function format(str, ...)
 	local args = { ... }
 	local function repl(escape, open, num, close)
-		if escape == "" then
+		if escape == '' then
 			local replacement = tostring(args[tonumber(num)])
-			if open == "" then
+			if open == '' then
 				replacement = replacement..close
 			end
 			return replacement
 		else
-			return "@"..open..num..close
+			return '@'..open..num..close
 		end
 	end
-	return (str:gsub("(@?)@(%(?)(%d+)(%)?)", repl))
+	return (str:gsub('(@?)@(%(?)(%d+)(%)?)', repl))
 end
 
 local gettext, ngettext
-if minetest.get_modpath("intllib") then
+if minetest.get_modpath('intllib') then
 	if intllib.make_gettext_pair then
 		-- New method using gettext.
 		gettext, ngettext = intllib.make_gettext_pair()
