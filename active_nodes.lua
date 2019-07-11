@@ -570,7 +570,7 @@ minetest.register_craft({
 		{'','waterfalls:bucket_turbulent',''},
 		{'default:tin_ingot','default:diamond','default:tin_ingot'}
 	},
-	replacements = {{ 'waterfalls:turbulent_water', 'bucket:bucket_empty'}}
+	replacements = {{ 'waterfalls:bucket_turbulent', 'bucket:bucket_empty'}}
 })
 
 
