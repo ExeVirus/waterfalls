@@ -167,7 +167,7 @@ minetest.register_node('waterfalls:whirlpool_machine', {
 		local meta = minetest.get_meta(pos)
 		local inv  = meta:get_inventory()
         if(fields.lever) then 
-			if(inv:contains_item('src', 'bucket:bucket_water') and inv:contains_item('fuel', 'quartz:quartz_crystal')) then
+			if(inv:contains_item('src', 'bucket:bucket_water') and inv:contains_item('fuel', 'quartz:quartz_crystal')) and inv:is_empty('dst') then
 			    meta:set_int('countdown', 10) --for the node timer countdown
 			    minetest.get_node_timer(pos):start(1.0)
 			    inv:set_stack('src' , 1, '')
