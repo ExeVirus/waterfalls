@@ -223,7 +223,7 @@ minetest.register_node('waterfalls:waterfall_block', {
 			meta:set_int('spawner', id)
 			minetest.get_node_timer(pos):start(10.0)
 			meta:set_string('formspec', 
-                waterfall_formspec((fields.direction + 45) / 45, ht, distance, pd))
+                waterfall_formspec((fields.direction + 45) / 45, ht, distance, spd))
 		end
 	end,
 })
