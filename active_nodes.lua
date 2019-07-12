@@ -8,23 +8,22 @@ local S, NS = dofile(MP..'/intllib.lua')
 local function waterfall_timer(pos)
 	local meta = minetest.get_meta(pos)
 	local id   = minetest.add_particlespawner({
-		amount     = 325, 
+		amount     = 325,
 		time       = 10,
-		minpos 	   = minetest.deserialize(meta:get_string('minpos')), 
+		minpos 	   = minetest.deserialize(meta:get_string('minpos')),
 		maxpos     = minetest.deserialize(meta:get_string('maxpos')),
-		minvel     = minetest.deserialize(meta:get_string('minvel')), 
+		minvel     = minetest.deserialize(meta:get_string('minvel')),
 		maxvel     = minetest.deserialize(meta:get_string('maxvel')),
-		minacc     = minetest.deserialize(meta:get_string('minacc')), 
+		minacc     = minetest.deserialize(meta:get_string('minacc')),
 		maxacc     = minetest.deserialize(meta:get_string('maxacc')),
 		minexptime = 3,
 		maxexptime = 3,
 		minsize    = 0.5,
 		maxsize    = 1,
-		collisiondetection = false, 
+		collisiondetection = false,
 		collision_removal  = false,
 		vertical   = false,
-		texture    = 'water_white.png', 
-		name,
+		texture    = 'water_white.png',
 	})
 	meta:set_int('spawner', id)
 	return 1
@@ -55,23 +54,22 @@ minetest.register_lbm({
 	action = function(pos, node)
 		local meta = minetest.get_meta(pos)
         local id = minetest.add_particlespawner({
-			amount = 325, 
+			amount = 325,
 			time   = 10,
-			minpos = minetest.deserialize(meta:get_string('minpos')), 
+			minpos = minetest.deserialize(meta:get_string('minpos')),
 			maxpos = minetest.deserialize(meta:get_string('maxpos')),
-			minvel = minetest.deserialize(meta:get_string('minvel')), 
+			minvel = minetest.deserialize(meta:get_string('minvel')),
 			maxvel = minetest.deserialize(meta:get_string('maxvel')),
-			minacc = minetest.deserialize(meta:get_string('minacc')), 
+			minacc = minetest.deserialize(meta:get_string('minacc')),
 			maxacc = minetest.deserialize(meta:get_string('maxacc')),
-			minexptime = 3, 
+			minexptime = 3,
 			maxexptime = 3,
-			minsize = 0.5, 
+			minsize = 0.5,
 			maxsize = 1,
-			collisiondetection = false, 
+			collisiondetection = false,
 			collision_removal  = false,
 			vertical = false,
-			texture = 'water_white.png', 
-			name,
+			texture = 'water_white.png',
 		})
 		meta:set_int('spawner', id) --ID to remove spawner on node destruct
 		minetest.get_node_timer(pos):start(10.0)
@@ -90,14 +88,14 @@ minetest.register_node('waterfalls:waterfall_block', {
 	groups 		= {oddly_breakable_by_hand=3},
 	sounds 		= default.node_sound_water_defaults(),
 	post_effect_color = {a = 103, r = 30, g = 60, b = 95},
-	
+
     on_timer = waterfall_timer,
-    
+
 	on_destruct = function(pos)
 		local meta = minetest.get_meta(pos)
 		minetest.delete_particlespawner(meta:get_int('spawner'))
 	end,
-	
+
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string('minpos', minetest.serialize({x=pos.x-.4, y=pos.y+0.5, z=pos.z-.4}))
@@ -106,33 +104,32 @@ minetest.register_node('waterfalls:waterfall_block', {
 		meta:set_string('maxvel', minetest.serialize({x=2, y=0, z=0}))
 		meta:set_string('minacc', minetest.serialize({x=-1, y=-4.3, z=0}))
 		meta:set_string('maxacc', minetest.serialize({x=-1, y=-6, z=0}))
-		
+
 		--set formspec to 0 degrees, mid height, short distance, mid spread
 		meta:set_string('formspec', waterfall_formspec(1,2,1,2))
-				
+
         local id = minetest.add_particlespawner({
-			amount = 325, 
+			amount = 325,
 			time   = 10,
-			minpos   = {x=pos.x-.4,y=pos.y+0.5,z=pos.z-.4}, 
+			minpos   = {x=pos.x-.4,y=pos.y+0.5,z=pos.z-.4},
 			maxpos   = {x=pos.x+.4,y=pos.y+0.5,z=pos.z+.4},
 			minvel   = {x=1,y=0,z=0}, maxvel={x=2,y=0,z=0},
 			minacc   = {x=-1,y=-4.3,z=0}, maxacc={x=-1,y=-6,z=0},
 			minexptime = 3,
 			maxexptime = 3,
-			minsize    = 0.5, 
+			minsize    = 0.5,
 			maxsize    = 1,
-			collisiondetection = false, 
+			collisiondetection = false,
 			collision_removal  = false,
 			vertical = false,
-			texture  = 'water_white.png', 
-			name,
+			texture  = 'water_white.png',
 		})
-		
+
 		--set ID for destruct later
 		meta:set_int('spawner', id)
 		minetest.get_node_timer(pos):start(10.0)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -146,15 +143,15 @@ minetest.register_node('waterfalls:waterfall_block', {
 				spread_pos = 0.2
 				spd 	   = 1
 			elseif(fields.spread == 'normal') then
-				spread 	   = 0.2	
+				spread 	   = 0.2
 				spread_pos = 0.4
-				spd        = 2	
+				spd        = 2
 			else
 				spread     = 1
 				spread_pos = 0.5
 				spd        = 3
 			end
-			
+
 			if(fields.height == 'short') then
 				minfall = -2.1
 				maxfall = -3
@@ -168,61 +165,60 @@ minetest.register_node('waterfalls:waterfall_block', {
 				maxfall = -6
 				ht      = 3
 			end
-			
+
 			if(fields.distance == 'short') then
-				distance = 1	
+				distance = 1
 			elseif(fields.distance == 'mid') then
 				distance = 2
 			else
 				distance = 3
 			end
-					
+
 			meta:set_string('minpos', minetest.serialize({x=pos.x-spread_pos, y=pos.y+0.5, z=pos.z-spread_pos}))
 			meta:set_string('maxpos', minetest.serialize({x=pos.x+spread_pos, y=pos.y+0.5, z=pos.z+spread_pos}))
-			meta:set_string('minvel', minetest.serialize({	
-                x = math.cos(math.rad(fields.direction)) * distance, 
-                y = 0, 
+			meta:set_string('minvel', minetest.serialize({
+                x = math.cos(math.rad(fields.direction)) * distance,
+                y = 0,
                 z = math.sin(math.rad(fields.direction)) * distance
             }))
 			meta:set_string('maxvel', minetest.serialize({
-                x = math.cos(math.rad(fields.direction)) * 2 * distance, 
-				y = 0, 
+                x = math.cos(math.rad(fields.direction)) * 2 * distance,
+				y = 0,
 				z = math.sin(math.rad(fields.direction)) * 2 * distance
             }))
             --At 0 degrees, direction is +z and spread is perpendicular to direction
 			meta:set_string('minacc', minetest.serialize({
 				x = -math.cos(math.rad(fields.direction)) * distance + math.sin(fields.direction) * -spread,
-				y = minfall, 
-				z = -math.sin(math.rad(fields.direction)) * distance + math.cos(fields.direction) * spread 
+				y = minfall,
+				z = -math.sin(math.rad(fields.direction)) * distance + math.cos(fields.direction) * spread
             }))
 			meta:set_string('maxacc', minetest.serialize({
 				x = -math.cos(math.rad(fields.direction)) * distance * 1.5 + math.sin(fields.direction) * spread,
-				y = maxfall, 
+				y = maxfall,
 				z = -math.sin(math.rad(fields.direction)) * distance * 1.5 + math.cos(fields.direction) * -spread
             }))
 			minetest.delete_particlespawner(meta:get_int('spawner'))
 			local id = minetest.add_particlespawner({
-                amount  = 325, 
+                amount  = 325,
                 time    = 10,
-                minpos  = minetest.deserialize(meta:get_string('minpos')), 
+                minpos  = minetest.deserialize(meta:get_string('minpos')),
                 maxpos  = minetest.deserialize(meta:get_string('maxpos')),
-                minvel  = minetest.deserialize(meta:get_string('minvel')), 
+                minvel  = minetest.deserialize(meta:get_string('minvel')),
                 maxvel  = minetest.deserialize(meta:get_string('maxvel')),
-                minacc  = minetest.deserialize(meta:get_string('minacc')), 
+                minacc  = minetest.deserialize(meta:get_string('minacc')),
                 maxacc  = minetest.deserialize(meta:get_string('maxacc')),
-                minexptime = 1, 
+                minexptime = 1,
                 maxexptime = 2,
-                minsize = 0.5, 
+                minsize = 0.5,
                 maxsize = 1,
-                collisiondetection=false, 
+                collisiondetection=false,
                 collision_removal=false,
                 vertical=false,
-                texture='water_white.png', 
-                name,
+                texture='water_white.png',
             })
 			meta:set_int('spawner', id)
 			minetest.get_node_timer(pos):start(10.0)
-			meta:set_string('formspec', 
+			meta:set_string('formspec',
                 waterfall_formspec((fields.direction + 45) / 45, ht, distance, spd))
 		end
 	end,
@@ -244,23 +240,22 @@ minetest.register_craft({
 local function basin_timer(pos)
 	local meta = minetest.get_meta(pos)
 	local id = minetest.add_particlespawner({
-        amount = 400, 
+        amount = 400,
         time   = 10,
-		minpos = minetest.deserialize(meta:get_string('minpos')), 
+		minpos = minetest.deserialize(meta:get_string('minpos')),
 		maxpos = minetest.deserialize(meta:get_string('maxpos')),
-		minvel = minetest.deserialize(meta:get_string('minvel')), 
+		minvel = minetest.deserialize(meta:get_string('minvel')),
 		maxvel = minetest.deserialize(meta:get_string('maxvel')),
-		minacc = minetest.deserialize(meta:get_string('minacc')), 
+		minacc = minetest.deserialize(meta:get_string('minacc')),
 		maxacc = minetest.deserialize(meta:get_string('maxacc')),
 		minexptime = 1,
         maxexptime = 2,
-		minsize = 0.5, 
+		minsize = 0.5,
         maxsize = 1,
-		collisiondetection = false, 
+		collisiondetection = false,
         collision_removal  = false,
 		vertical = false,
-		texture  = 'water_blue.png', 
-        name,
+		texture  = 'water_blue.png',
     })
 	meta:set_int('spawner', id)
 	return 1
@@ -291,23 +286,22 @@ minetest.register_lbm({
 	action = function(pos, node)
 		local meta = minetest.get_meta(pos)
         local id = minetest.add_particlespawner({
-            amount  = 400, 
+            amount  = 400,
             time    = 10,
-            minpos  = minetest.deserialize(meta:get_string('minpos')), 
+            minpos  = minetest.deserialize(meta:get_string('minpos')),
             maxpos  = minetest.deserialize(meta:get_string('maxpos')),
-            minvel  = minetest.deserialize(meta:get_string('minvel')), 
+            minvel  = minetest.deserialize(meta:get_string('minvel')),
             maxvel  = minetest.deserialize(meta:get_string('maxvel')),
-            minacc  = minetest.deserialize(meta:get_string('minacc')), 
+            minacc  = minetest.deserialize(meta:get_string('minacc')),
             maxacc  = minetest.deserialize(meta:get_string('maxacc')),
             minexptime = 1,
             maxexptime = 2,
-            minsize = 0.5, 
+            minsize = 0.5,
             maxsize = 1,
-            collisiondetection = false, 
+            collisiondetection = false,
             collision_removal  = false,
             vertical = false,
-            texture  = 'water_blue.png', 
-            name,
+            texture  = 'water_blue.png',
         })
 		meta:set_int('spawner', id)
 		minetest.get_node_timer(pos):start(10.0)
@@ -317,7 +311,7 @@ minetest.register_lbm({
 minetest.register_node('waterfalls:basin', {
 	drawtype    = 'glasslike',
 	description = S('Waterfall Basin'),
-	tiles       = {'waterfall_basin.png'}, 
+	tiles       = {'waterfall_basin.png'},
 	walkable    = false,
     climbable   = true,
 	groups      = {oddly_breakable_by_hand=3},
@@ -325,14 +319,14 @@ minetest.register_node('waterfalls:basin', {
 	alpha       = 160,
 	sounds      = default.node_sound_water_defaults(),
     post_effect_color = {a = 103, r = 30, g = 60, b = 95},
-	
-    on_timer = basin_timer,		
-    
+
+    on_timer = basin_timer,
+
 	on_destruct = function(pos)
         local meta = minetest.get_meta(pos)
 		minetest.delete_particlespawner(meta:get_int('spawner'))
 	end,
-	
+
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string('minpos', minetest.serialize({x=pos.x-.2, y=pos.y+0.5, z=pos.z-.2}))
@@ -341,30 +335,29 @@ minetest.register_node('waterfalls:basin', {
 		meta:set_string('maxvel', minetest.serialize({x=0, y=6, z=0}))
 		meta:set_string('minacc', minetest.serialize({x=-1, y=-7, z=1}))
 		meta:set_string('maxacc', minetest.serialize({x=1, y=-7, z=1}))
-        
+
 		meta:set_string('formspec', basin_formspec(1,2,1,2))
-        
+
         local id = minetest.add_particlespawner({
-            amount  = 400, 
+            amount  = 400,
             time    = 10,
-            minpos  = {x=pos.x-.2,y=pos.y+0.5,z=pos.z-.2}, 
+            minpos  = {x=pos.x-.2,y=pos.y+0.5,z=pos.z-.2},
             maxpos  = {x=pos.x+.2,y=pos.y+0.5,z=pos.z+.2},
             minvel  = {x=0,y=5,z=0}, maxvel={x=0,y=6,z=0},
             minacc  = {x=-1,y=-7,z=1}, maxacc={x=1,y=-7,z=1},
-            minexptime = 1, 
+            minexptime = 1,
             maxexptime = 2,
-            minsize = 0.5, 
+            minsize = 0.5,
             maxsize = 1,
-            collisiondetection = false, 
+            collisiondetection = false,
             collision_removal  = false,
             vertical = false,
-            texture  = 'water_blue.png', 
-            name
+            texture  = 'water_blue.png',
         })
 		meta:set_int('spawner', id)
 		minetest.get_node_timer(pos):start(10.0)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -378,9 +371,9 @@ minetest.register_node('waterfalls:basin', {
 				spread_pos = 0.1
 				spd        = 1
 			elseif(fields.spread == 'normal') then
-				spread     = 1		
+				spread     = 1
 				spread_pos = 0.2
-				spd        = 2	
+				spd        = 2
 			else
 				spread     = 1.2
 				spread_pos = 0.4
@@ -411,7 +404,7 @@ minetest.register_node('waterfalls:basin', {
 			else
 				distance = 3
 			end
-					
+
 			meta:set_string('minpos', minetest.serialize({x=pos.x-spread_pos, y=pos.y+0.5, z=pos.z-spread_pos}))
 			meta:set_string('maxpos', minetest.serialize({x=pos.x+spread_pos, y=pos.y+0.5, z=pos.z+spread_pos}))
 			meta:set_string('minvel', minetest.serialize({x=0, y=minheight, z=0}))
@@ -419,37 +412,36 @@ minetest.register_node('waterfalls:basin', {
             --At 0 degrees, direction is +z and spread is perpendicular to direction
 			meta:set_string('minacc', minetest.serialize({
 				x = math.sin(math.rad(fields.direction)) * distance+math.cos(fields.direction) * -spread,
-				y = fallback, 
-				z = math.cos(math.rad(fields.direction)) * distance+math.sin(fields.direction) * spread 
+				y = fallback,
+				z = math.cos(math.rad(fields.direction)) * distance+math.sin(fields.direction) * spread
             }))
 			meta:set_string('maxacc', minetest.serialize({
 				x = math.sin(math.rad(fields.direction)) * distance+math.cos(fields.direction) * spread,
-				y = fallback, 
-				z = math.cos(math.rad(fields.direction)) * distance+math.sin(fields.direction) * -spread 
+				y = fallback,
+				z = math.cos(math.rad(fields.direction)) * distance+math.sin(fields.direction) * -spread
             }))
 			minetest.delete_particlespawner(meta:get_int('spawner'))
 			local id = minetest.add_particlespawner({
-                amount  = 400, 
+                amount  = 400,
                 time    = 10,
-                minpos  = minetest.deserialize(meta:get_string('minpos')), 
+                minpos  = minetest.deserialize(meta:get_string('minpos')),
                 maxpos  = minetest.deserialize(meta:get_string('maxpos')),
-                minvel  = minetest.deserialize(meta:get_string('minvel')), 
+                minvel  = minetest.deserialize(meta:get_string('minvel')),
                 maxvel  = minetest.deserialize(meta:get_string('maxvel')),
-                minacc  = minetest.deserialize(meta:get_string('minacc')), 
+                minacc  = minetest.deserialize(meta:get_string('minacc')),
                 maxacc  = minetest.deserialize(meta:get_string('maxacc')),
-                minexptime = 1, 
+                minexptime = 1,
                 maxexptime = 2,
-                minsize = 0.5, 
+                minsize = 0.5,
                 maxsize = 1,
-                collisiondetection = false, 
+                collisiondetection = false,
                 collision_removal  = false,
                 vertical = false,
-                texture  = 'water_blue.png', 
-                name
+                texture  = 'water_blue.png',
             })
 			meta:set_int('spawner', id)
 			minetest.get_node_timer(pos):start(10.0)
-			meta:set_string('formspec', 
+			meta:set_string('formspec',
                 basin_formspec((fields.direction + 45) / 45, ht, distance, spd))
 		end
 	end,
@@ -470,21 +462,20 @@ minetest.register_craft({
 
 local function fountain_timer(pos)
 	local id = minetest.add_particlespawner({
-        amount  = 400, 
+        amount  = 400,
         time    = 10,
-		minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1}, 
+		minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1},
 		maxpos  = {x=pos.x+.1,y=pos.y+0.5,z=pos.z+.1},
 		minvel  = {x=0,y=5,z=0}, maxvel={x=0,y=6,z=0},
 		minacc  = {x=-1,y=-7,z=-1}, maxacc={x=1,y=-7,z=1},
-		minexptime = 1, 
+		minexptime = 1,
         maxexptime = 2,
-		minsize = 0.5, 
+		minsize = 0.5,
         maxsize = 1,
-		collisiondetection = false, 
+		collisiondetection = false,
         collision_removal = false,
 		vertical = false,
-		texture = 'water_blue.png', 
-        name,
+		texture = 'water_blue.png',
     })
 	local meta = minetest.get_meta(pos)
 	meta:set_int('spawner', id)
@@ -498,23 +489,22 @@ minetest.register_lbm({
 	action = function(pos, node)
         local meta = minetest.get_meta(pos)
         local id = minetest.add_particlespawner({
-            amount  = 400, 
+            amount  = 400,
             time    = 10,
-            minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1}, 
+            minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1},
             maxpos  = {x=pos.x+.1,y=pos.y+0.5,z=pos.z+.1},
-            minvel  = {x=0,y=5,z=0}, 
+            minvel  = {x=0,y=5,z=0},
             maxvel  = {x=0,y=6,z=0},
-            minacc  = {x=-1,y=-7,z=-1}, 
+            minacc  = {x=-1,y=-7,z=-1},
             maxacc  = {x=1,y=-7,z=1},
-            minexptime = 1, 
+            minexptime = 1,
             maxexptime = 2,
-            minsize = 0.5, 
+            minsize = 0.5,
             maxsize = 1,
             collisiondetection = false,
             collision_removal  = false,
             vertical = false,
             texture  = 'water_blue.png',
-            name,
         })
 		meta:set_int('spawner', id)
 		minetest.get_node_timer(pos):start(10.0)
@@ -530,33 +520,32 @@ minetest.register_node('waterfalls:fountain', {
 	sounds          = default.node_sound_stone_defaults(),
     use_texture_alpha = true,
 
-    on_timer = fountain_timer,	
-    
+    on_timer = fountain_timer,
+
 	on_destruct = function(pos)
         local meta = minetest.get_meta(pos)
 		minetest.delete_particlespawner(meta:get_int('spawner'))
 	end,
-	
+
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
         local id = minetest.add_particlespawner({
-            amount  = 400, 
+            amount  = 400,
             time    = 10,
-            minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1}, 
+            minpos  = {x=pos.x-.1,y=pos.y+0.5,z=pos.z-.1},
             maxpos  = {x=pos.x+.1,y=pos.y+0.5,z=pos.z+.1},
-            minvel  = {x=0,y=5,z=0}, 
+            minvel  = {x=0,y=5,z=0},
             maxvel  = {x=0,y=6,z=0},
-            minacc  = {x=-1,y=-7,z=-1}, 
+            minacc  = {x=-1,y=-7,z=-1},
             maxacc  = {x=1,y=-7,z=1},
-            minexptime = 1, 
+            minexptime = 1,
             maxexptime = 2,
-            minsize = 0.5, 
+            minsize = 0.5,
             maxsize = 1,
-            collisiondetection = false, 
+            collisiondetection = false,
             collision_removal = false,
             vertical = false,
-            texture = 'water_blue.png', 
-            name,
+            texture = 'water_blue.png',
         })
 		meta:set_int('spawner', id)
 		minetest.get_node_timer(pos):start(10.0)
