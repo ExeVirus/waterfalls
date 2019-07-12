@@ -79,7 +79,7 @@ minetest.register_lbm({
 })
 
 minetest.register_node('waterfalls:waterfall_block', {
-	drawtype 	= 'liquid',
+	drawtype 	= 'glasslike',
 	description = S('Waterfall Block'),
 	tiles     	= {'waterfall_block.png'},
 	alpha     	= 160,
@@ -315,7 +315,7 @@ minetest.register_lbm({
 })
 
 minetest.register_node('waterfalls:basin', {
-	drawtype    = 'liquid',
+	drawtype    = 'glasslike',
 	description = S('Waterfall Basin'),
 	tiles       = {'waterfall_basin.png'}, 
 	walkable    = false,
