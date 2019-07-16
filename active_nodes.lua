@@ -313,6 +313,7 @@ minetest.register_node('waterfalls:basin', {
 	description = S('Waterfall Basin'),
 	tiles       = {'waterfall_basin.png'},
 	walkable    = false,
+	paramtype 	= 'light',
     climbable   = true,
 	groups      = {oddly_breakable_by_hand=3},
 	drowning    = 1,
@@ -519,6 +520,7 @@ minetest.register_node('waterfalls:fountain', {
 	groups          = {oddly_breakable_by_hand=3},
 	sounds          = default.node_sound_stone_defaults(),
     use_texture_alpha = true,
+	paramtype 	= 'light',
 
     on_timer = fountain_timer,
 
