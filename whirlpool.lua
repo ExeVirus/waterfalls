@@ -78,7 +78,9 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	elseif listname == 'src' then
 		if(stack:get_name() == 'bucket:bucket_water') and inv:is_empty('src') then
 			return 1
-		else
+		elseif (stack:get_name() == 'bucket:bucket_lava') and inv:is_empty('src') then
+			return 1
+        else
 			return 0
 		end
 	elseif listname == 'dst' then
@@ -122,7 +124,12 @@ local function whirlpool_cycle_timer(pos)
 	else
 		meta:set_string('formspec', inactive_formspec)
 		swap_node(pos, 'waterfalls:whirlpool_machine')
-		inv:set_stack('dst', 1, 'waterfalls:bucket_turbulent')
+        local set = meta:get_string("whirl_set")
+        if set == "water" then
+            inv:set_stack('dst', 1, 'waterfalls:bucket_turbulent')
+        else
+            inv:set_stack('dst', 1, 'waterfalls:lava_turbulent')
+        end
 		return false
 	end	
 end
@@ -174,8 +181,18 @@ minetest.register_node('waterfalls:whirlpool_machine', {
 			    inv:set_stack('fuel', 1, '')
 			    swap_node(pos, 'waterfalls:whirlpool_machine_active')
 			    meta:set_string('formspec', active_formspec(100))
+                meta:set_string("whirl_set", "water")
 				return 
-			end
+			elseif(inv:contains_item('src', 'bucket:bucket_lava') and inv:contains_item('fuel', 'quartz:quartz_crystal')) and inv:is_empty('dst') then
+			    meta:set_int('countdown', 10) --for the node timer countdown
+			    minetest.get_node_timer(pos):start(1.0)
+			    inv:set_stack('src' , 1, '')
+			    inv:set_stack('fuel', 1, '')
+			    swap_node(pos, 'waterfalls:whirlpool_machine_active')
+			    meta:set_string('formspec', active_formspec(100))
+                meta:set_string("whirl_set", "lava")
+				return 
+            end
 		end    
     end,
     
